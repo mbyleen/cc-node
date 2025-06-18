@@ -13,7 +13,6 @@ program
   .action((file, options, command) => {
     if (options.bytes) {
       const bytes = countBytes(file);
-      bytes && console.log(bytes);
     }
   });
 

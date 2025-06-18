@@ -1,7 +1,8 @@
 import fs from "fs";
+import path from "path";
 
-export const countBytes = async (path) => {
-  const filePath = path.join(process.cwd(), path);
+export const countBytes = async (file) => {
+  const filePath = path.resolve(process.cwd(), file);
   const readStream = fs.createReadStream(filePath, { encoding: "utf8" });
 
   let bytes = 0;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "ccwc": "./index.js"
+    "ccwc": "./bin/index.js"
   },
   "type": "module",
   "scripts": {
