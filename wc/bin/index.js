@@ -2,6 +2,7 @@
 
 import { program } from "commander";
 import { countBytes } from "../src/commands/bytes.js";
+import { countLines } from "../src/commands/lines.js";
 
 program
   .version("1.0.0")
@@ -9,10 +10,14 @@ program
     "Coding Challenges wc - a Node implementation of the wc Unix utility"
   )
   .argument("<file>")
-  .option("-c, --bytes", "print the byte counts")
-  .action((file, options, command) => {
+  .option("-c, --bytes", "print the byte count")
+  .option("-l, --lines", "print the line count")
+  .action(async (file, options, command) => {
     if (options.bytes) {
-      const bytes = countBytes(file);
+      countBytes(file);
+    }
+    if (options.lines) {
+      countLines(file);
     }
   });
 
