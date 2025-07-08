@@ -17,7 +17,5 @@ export const countLines = async (file) => {
     }
   });
 
-  readStream.on("end", () => {
-    console.log(`${lines} ${file}`);
-  });
+  readStream.on("end", () => {});
 };

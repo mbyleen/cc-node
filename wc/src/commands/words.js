@@ -1,19 +1,26 @@
 import fs from "fs";
 import path from "path";
 
-// why is this overcounting the number of words by 2?
 export const countWords = async (file) => {
   const filePath = path.resolve(process.cwd(), file);
 
   const readStream = fs.createReadStream(filePath);
 
-  let words = 0;
+  let wordCount = 0;
+  let leftover = "";
 
   readStream.on("data", (chunk) => {
-    words += chunk.toString().trim().split(/\s+/).length;
+    const text = leftover + chunk.toString();
+    const words = text.match(/\S+/g) || [];
+
+    if (!/\s$/.test(text)) {
+      leftover = words.pop();
+    } else {
+      leftover = "";
+    }
+
+    wordCount += words.length;
   });
 
-  readStream.on("end", () => {
-    console.log(`${words} ${file}`);
-  });
+  readStream.on("end", () => {});
 };

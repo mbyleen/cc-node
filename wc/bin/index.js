@@ -14,15 +14,20 @@ program
   .option("-c, --bytes", "print the byte counts")
   .option("-l, --lines", "print the newline counts")
   .option("-w, --words", "print the word counts")
+  .option("-m, --chars", "Print the character counts")
   .action(async (file, options, command) => {
-    if (options.bytes) {
-      countBytes(file);
-    }
+    const printCount = (number) => {
+      console.log(`${number} ${file}`);
+    };
+
     if (options.lines) {
-      countLines(file);
+      const lines = countLines(file);
     }
     if (options.words) {
-      countWords(file);
+      const words = countWords(file);
+    }
+    if (options.bytes) {
+      const bytes = await countBytes(file);
     }
   });
 
