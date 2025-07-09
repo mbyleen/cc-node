@@ -6,16 +6,22 @@ export const countLines = async (file) => {
 
   const readStream = fs.createReadStream(filePath);
 
-  const LINE_FEED = "\n".charCodeAt(0);
-  let lines = 0;
+  return new Promise((resolve, reject) => {
+    const LINE_FEED = "\n".charCodeAt(0);
+    let lines = 0;
 
-  readStream.on("data", (chunk) => {
-    for (let i = 0; i < chunk.length; i++) {
-      if (chunk[i] === LINE_FEED) {
-        lines += 1;
+    readStream.on("data", (chunk) => {
+      for (let i = 0; i < chunk.length; i++) {
+        if (chunk[i] === LINE_FEED) lines++;
       }
-    }
-  });
+    });
 
-  readStream.on("end", () => {});
+    readStream.on("end", () => {
+      resolve(lines);
+    });
+
+    readStream.on("error", (err) => {
+      reject(err);
+    });
+  });
 };

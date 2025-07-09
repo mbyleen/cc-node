@@ -6,21 +6,29 @@ export const countWords = async (file) => {
 
   const readStream = fs.createReadStream(filePath);
 
-  let wordCount = 0;
-  let leftover = "";
+  return new Promise((resolve, reject) => {
+    let wordCount = 0;
+    let leftover = "";
 
-  readStream.on("data", (chunk) => {
-    const text = leftover + chunk.toString();
-    const words = text.match(/\S+/g) || [];
+    readStream.on("data", (chunk) => {
+      const text = leftover + chunk.toString();
+      const words = text.match(/\S+/g) || [];
 
-    if (!/\s$/.test(text)) {
-      leftover = words.pop();
-    } else {
-      leftover = "";
-    }
+      if (!/\s$/.test(text)) {
+        leftover = words.pop();
+      } else {
+        leftover = "";
+      }
 
-    wordCount += words.length;
+      wordCount += words.length;
+    });
+
+    readStream.on("end", () => {
+      resolve(wordCount);
+    });
+
+    readStream.on("error", () => {
+      reject;
+    });
   });
-
-  readStream.on("end", () => {});
 };
