@@ -30,7 +30,11 @@ program
       selectedMethods.map((method) => method(file))
     );
 
-    console.log(`${lines} ${words} ${bytes} ${file}`);
+    const displayCounts = [lines, words, bytes]
+      .filter((c) => c !== undefined)
+      .join(" ");
+
+    console.log(`${displayCounts} ${file}`);
   });
 
 program.parse(process.argv);
