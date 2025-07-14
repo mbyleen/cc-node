@@ -1,9 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-export const countWords = async (file) => {
-  const filePath = path.resolve(process.cwd(), file);
-
+export const countWords = async (filePath) => {
   const readStream = fs.createReadStream(filePath);
 
   return new Promise((resolve, reject) => {
