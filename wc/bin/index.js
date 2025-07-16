@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
+import path from "path";
+
 import { countBytes } from "../src/commands/bytes.js";
 import { countLines } from "../src/commands/lines.js";
 import { countWords } from "../src/commands/words.js";
@@ -26,15 +28,19 @@ program
   .action(async (file, options, command) => {
     const filePath = path.resolve(process.cwd(), file);
 
-    const selectedMethods = Object.keys(methodsMap)
+    const defaultCounts = [countLines, countWords, countChars];
+
+    const selectedCounts = Object.keys(methodsMap)
       .filter((key) => options[key])
       .map((opt) => methodsMap[opt]);
 
-    const [lines, words, bytes] = await Promise.all(
-      selectedMethods.map((method) => method(filePath))
+    const counts = selectedCounts.length ? selectedCounts : defaultCounts;
+
+    const [lines, words, chars, bytes] = await Promise.all(
+      counts.map((method) => method(filePath))
     );
 
-    const displayCounts = [lines, words, bytes]
+    const displayCounts = [lines, words, chars, bytes]
       .filter((c) => c !== undefined)
       .join(" ");
 

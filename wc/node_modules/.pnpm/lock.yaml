@@ -11,6 +11,12 @@ importers:
       commander:
         specifier: ^14.0.0
         version: 14.0.0
+      os-locale:
+        specifier: ^6.0.2
+        version: 6.0.2
+      unicode-segmenter:
+        specifier: ^0.13.1
+        version: 0.13.1
 
 packages:
 
@@ -18,6 +24,33 @@ packages:
     resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
     engines: {node: '>=20'}
 
+  invert-kv@3.0.1:
+    resolution: {integrity: sha512-CYdFeFexxhv/Bcny+Q0BfOV+ltRlJcd4BBZBYFX/O0u4npJrgZtIcjokegtiSMAvlMTJ+Koq0GBCc//3bueQxw==}
+    engines: {node: '>=8'}
+
+  lcid@3.1.1:
+    resolution: {integrity: sha512-M6T051+5QCGLBQb8id3hdvIW8+zeFV2FyBGFS9IEK5H9Wt4MueD4bW1eWikpHgZp+5xR3l5c8pZUkQsIA0BFZg==}
+    engines: {node: '>=8'}
+
+  os-locale@6.0.2:
+    resolution: {integrity: sha512-qIb8bzRqaN/vVqEYZ7lTAg6PonskO7xOmM7OClD28F6eFa4s5XGe4bGpHUHMoCHbNNuR0pDYFeSLiW5bnjWXIA==}
+    engines: {node: '>=12.20'}
+
+  unicode-segmenter@0.13.1:
+    resolution: {integrity: sha512-HBjqD8g2QkZsFFl2fpMNhjli+qpBAoMmM+wCUzZHvxaHewSoYq/l8LOvDdWL39vkPmvyjkjUwUXCV6d1gFcgbQ==}
+
 snapshots:
 
   commander@14.0.0: {}
+
+  invert-kv@3.0.1: {}
+
+  lcid@3.1.1:
+    dependencies:
+      invert-kv: 3.0.1
+
+  os-locale@6.0.2:
+    dependencies:
+      lcid: 3.1.1
+
+  unicode-segmenter@0.13.1: {}

@@ -1,10 +1,22 @@
-// use ? to get the locale string
-// use unicode-segmenter or Intl.Segment to split into chars
+import fs from "fs";
+import { graphemeSegments } from "unicode-segmenter/grapheme";
 
 export const countChars = async (filePath) => {
   const readStream = fs.createReadStream(filePath);
 
-  return Promise((resolve, reject) => {
-    return resolve(null);
+  return new Promise((resolve, reject) => {
+    let characters = 0;
+
+    readStream.on("data", (chunk) => {
+      characters += [...graphemeSegments(chunk.toString())].length;
+    });
+
+    readStream.on("end", () => {
+      resolve(characters);
+    });
+
+    readStream.on("error", (error) => {
+      reject(error);
+    });
   });
 };
