@@ -32,11 +32,25 @@ if (process.stdin.isTTY) {
 }
   */
 
-const methodsMap = {
-  lines: countLines,
-  words: countWords,
-  chars: countChars,
-  bytes: countBytes,
+const getCountTypes = (options) => {
+  const methodsMap = {
+    lines: countLines,
+    words: countWords,
+    chars: countChars,
+    bytes: countBytes,
+  };
+
+  const defaultCounts = [countLines, countWords, countBytes];
+
+  const selectedCounts = Object.keys(methodsMap)
+    .filter((key) => options[key])
+    .map((opt) => methodsMap[opt]);
+
+  const isDefault = !selectedCounts.length;
+
+  const counts = isDefault ? defaultCounts : selectedCounts;
+
+  return { counts, isDefault };
 };
 
 program
@@ -51,16 +65,6 @@ program
   .option("-c, --bytes", "print the byte counts")
   .action(async (file, options, command) => {
     const filePath = path.resolve(process.cwd(), file);
-
-    const defaultCounts = [countLines, countWords, countBytes];
-
-    const selectedCounts = Object.keys(methodsMap)
-      .filter((key) => options[key])
-      .map((opt) => methodsMap[opt]);
-
-    const isDefault = !selectedCounts.length;
-
-    const counts = isDefault ? defaultCounts : selectedCounts;
 
     const [lines, words, chars, bytes] = await Promise.all(
       counts.map((method) => method(filePath))
