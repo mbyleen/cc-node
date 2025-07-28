@@ -66,6 +66,7 @@ program
 
     const displayCounts = [lines, words, chars, bytes]
       .filter((c) => c !== undefined)
+      .map((c) => c.toString().padStart(6, " "))
       .join(" ");
 
     console.log(`${displayCounts} ${file}`);
