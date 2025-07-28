@@ -8,6 +8,30 @@ import { countLines } from "../src/commands/lines.js";
 import { countWords } from "../src/commands/words.js";
 import { countChars } from "../src/commands/chars.js";
 
+let stdin = "";
+
+/*
+program.command("some-command [message]").action(function (message) {
+  if (stdin) {
+    message = stdin;
+  }
+});
+
+if (process.stdin.isTTY) {
+  program.parse(process.argv);
+} else {
+  process.stdin.on("readable", function () {
+    var chunk = this.read();
+    if (chunk !== null) {
+      stdin += chunk;
+    }
+  });
+  process.stdin.on("end", function () {
+    program.parse(process.argv);
+  });
+}
+  */
+
 const methodsMap = {
   lines: countLines,
   words: countWords,
@@ -28,7 +52,7 @@ program
   .action(async (file, options, command) => {
     const filePath = path.resolve(process.cwd(), file);
 
-    const defaultCounts = [countLines, countWords, countChars];
+    const defaultCounts = [countLines, countWords, countBytes];
 
     const selectedCounts = Object.keys(methodsMap)
       .filter((key) => options[key])
