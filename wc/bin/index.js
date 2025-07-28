@@ -58,7 +58,9 @@ program
       .filter((key) => options[key])
       .map((opt) => methodsMap[opt]);
 
-    const counts = selectedCounts.length ? selectedCounts : defaultCounts;
+    const isDefault = !selectedCounts.length;
+
+    const counts = isDefault ? defaultCounts : selectedCounts;
 
     const [lines, words, chars, bytes] = await Promise.all(
       counts.map((method) => method(filePath))
@@ -66,7 +68,7 @@ program
 
     const displayCounts = [lines, words, chars, bytes]
       .filter((c) => c !== undefined)
-      .map((c) => c.toString().padStart(6, " "))
+      .map((c) => (isDefault ? c.toString().padStart(6, " ") : c))
       .join(" ");
 
     console.log(`${displayCounts} ${file}`);
