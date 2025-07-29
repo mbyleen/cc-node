@@ -47,7 +47,6 @@ const getCountTypes = (options) => {
     .map((opt) => methodsMap[opt]);
 
   const isDefault = !selectedCounts.length;
-
   const counts = isDefault ? defaultCounts : selectedCounts;
 
   return { counts, isDefault };
@@ -61,10 +60,12 @@ program
   .argument("<file>")
   .option("-l, --lines", "print the newline counts")
   .option("-w, --words", "print the word counts")
-  .option("-m, --chars", "Print the character counts")
+  .option("-m, --chars", "print the character counts")
   .option("-c, --bytes", "print the byte counts")
   .action(async (file, options, command) => {
     const filePath = path.resolve(process.cwd(), file);
+
+    const { counts, isDefault } = getCountTypes(options);
 
     const [lines, words, chars, bytes] = await Promise.all(
       counts.map((method) => method(filePath))
